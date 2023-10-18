@@ -4,13 +4,13 @@
 
 Submitted by: **Noah Dean**
 
-Time spent: **3** hours spent in total
+Time spent: **7** hours spent in total
 
 ## Summary
 
-**Random Pokemon Generator** is an android app that **displays a random Pokemon with their name and type from the PokeAPI.**
+**Random Pokemon Generator** is an android app that **displays a random Pokemon with their name, type, Pokedex number, and base experience points from the PokeAPI. This app also allows you to look up pokemon by their name or by their Pokedex number.**
 
-If I had to describe this project in three (3) emojis, they would be: **emojis here**
+If I had to describe this project in three (3) emojis, they would be: ****
 
 ## Application Features
 
@@ -19,14 +19,14 @@ If I had to describe this project in three (3) emojis, they would be: **emojis h
 The following REQUIRED features are completed:
 
 - [X] Make an API call to an API of your choice using AsyncHTTPClient
-- [ ] Display at least three (3) pieces of data for each API entry retrieved
+- [X] Display at least three (3) pieces of data for each API entry retrieved
 - [X] A working Button requests a new API entry and updates the data displayed
 
 The following STRETCH features are implemented:
 
-- [ ] Add a query to the API request
-  - The query I added is **FILL IN HERE**
-- [ ] Build a UI to allow users to add that query
+- [X] Add a query to the API request
+  - The query I added is **to search by Pokemon name or Pokedex entry number.**
+- [X] Build a UI to allow users to add that query
 
 The following EXTRA features are implemented:
 
