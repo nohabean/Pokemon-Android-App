@@ -40,7 +40,7 @@ My chosen API for this project is **PokeAPI**.
 
 Here's a video / GIF that demos all of the app's implemented features:
 
-<img src='http://i.imgur.com/link/to/your/gif/file.gif' title='Video Demo' width='' alt='Video Demo' />
+<img src='https://github.com/nohabean/Random_Pokemon_Generator/blob/master/Random%20Pokemon%20Generator.gif' title='Video Demo' width='300px' alt='Video Demo' />
 
 GIF created with **ScreenToGif**
 
