@@ -3,5 +3,7 @@
     <color name="black">#FF000000</color>
     <color name="white">#FFFFFFFF</color>
     <color name="backgroundImageView">@color/black</color>
-    <color name="pokedex_red">#FF363C</color>
+    <color name="pokedex_red">#DF0024</color>
+    <color name="menu_blue">#1CAAFF</color>
+    <color name="search_green">#4EAF5E</color>
 </resources>

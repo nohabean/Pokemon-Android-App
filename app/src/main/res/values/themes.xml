@@ -8,5 +8,9 @@
         <item name="colorOnSecondaryContainer">@color/black</item>
     </style>
 
+    <style name="custom_button" parent="Widget.MaterialComponents.Button">
+        <item name="backgroundTint">@null</item>
+    </style>
+
     <style name="Theme.RandomPokemonGenerator" parent="Base.Theme.RandomPokemonGenerator" />
 </resources>

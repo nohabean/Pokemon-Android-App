@@ -7,6 +7,8 @@ import android.animation.ValueAnimator
 import androidx.core.util.Pair
 import android.annotation.SuppressLint
 import android.content.Intent
+import android.content.res.ColorStateList
+import android.graphics.Color
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
@@ -39,6 +41,9 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val menuButton = findViewById<Button>(R.id.menuButton)
+        //menuButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3498db"))
 
         val randomButton = findViewById<Button>(R.id.randomButton)
         val image = findViewById<ImageView>(R.id.pokemonImage)
@@ -253,11 +258,12 @@ class MainActivity : AppCompatActivity() {
                 Log.d("Success", json.jsonObject.toString())
 
                 val sprites = json.jsonObject.getJSONObject("sprites")
-                val pokemonImageURL = sprites.getString("front_default")
-                val pokemonNumber = json.jsonObject.getString("id")
-                val pokemonName = json.jsonObject.getString("name")
+                pokemonImageURL = sprites.getString("front_default")
+                pokemonNumber = json.jsonObject.getString("id")
+                pokemonName = json.jsonObject.getString("name")
                 val types = json.jsonObject.getJSONArray("types")
-                val pokemonType = extractTypeNames(types)
+                val typeNames = extractTypeNames(types)
+                pokemonType = typeNames
 
                 // Update the UI elements
                 Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(imageView)
