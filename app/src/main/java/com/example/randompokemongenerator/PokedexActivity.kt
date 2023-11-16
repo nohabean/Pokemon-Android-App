@@ -28,6 +28,10 @@ class PokedexActivity : AppCompatActivity() {
         setContentView(R.layout.pokedex_search)
 
         val menuButton = findViewById<Button>(R.id.menuButton)
+        menuButton.setOnClickListener {
+            //overridePendingTransition(0, 0)
+            finish()
+        }
 
         val randomButton = findViewById<Button>(R.id.randomButton)
         val image = findViewById<ImageView>(R.id.pokemonImage)

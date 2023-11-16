@@ -148,10 +148,9 @@
     <View
         android:id="@+id/bottomBackground"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="130dp"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintTop_toTopOf="@id/searchBar"
-        android:layout_marginTop="-15dp"
+        app:layout_constraintStart_toStartOf="parent"
         android:background="@color/pokedex_red"/>
 
     <View
