@@ -1,36 +1,21 @@
 package com.example.randompokemongenerator
 
-import android.animation.Animator
-import android.animation.ObjectAnimator
-import android.animation.AnimatorListenerAdapter
-import android.animation.ValueAnimator
-import androidx.core.util.Pair
-import android.annotation.SuppressLint
 import android.content.Intent
-import android.content.res.ColorStateList
-import android.graphics.Color
-import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
-import android.os.Handler
 import android.util.Log
-import android.view.View
-import android.view.animation.Animation
-import android.view.animation.TranslateAnimation
 import android.widget.Button
 import android.widget.ImageView
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
-import androidx.core.app.ActivityOptionsCompat
 import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
 import org.json.JSONArray
-import java.util.Locale
 import kotlin.random.Random
 
-class MainActivity : AppCompatActivity() {
+class PokedexActivity : AppCompatActivity() {
     var pokemonImageURL = ""
     var pokemonNumber = ""
     var pokemonName = ""
@@ -40,10 +25,9 @@ class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.pokedex_search)
 
         val menuButton = findViewById<Button>(R.id.menuButton)
-        //menuButton.backgroundTintList = ColorStateList.valueOf(Color.parseColor("#3498db"))
 
         val randomButton = findViewById<Button>(R.id.randomButton)
         val image = findViewById<ImageView>(R.id.pokemonImage)
@@ -70,7 +54,7 @@ class MainActivity : AppCompatActivity() {
         }
 
         showStatsButton.setOnClickListener {
-            val intent = Intent(this@MainActivity, StatsActivity::class.java).apply {
+            val intent = Intent(this@PokedexActivity, StatsActivity::class.java).apply {
                 putExtra("pokemonImageURL", pokemonImageURL)
                 putExtra("pokemonNumber", pokemonNumber)
                 putExtra("pokemonName", pokemonName)
@@ -130,7 +114,7 @@ class MainActivity : AppCompatActivity() {
                 pokemonType = typeNames
 
                 // Display Pokemon data
-                Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(imageView)
+                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
                 numberTextView.text = "No.$pokemonNumber"
                 nameTextView.text = pokemonName
                 typeTextView.text = pokemonType
@@ -162,7 +146,7 @@ class MainActivity : AppCompatActivity() {
                 pokemonType = typeNames
 
                 // Display Pokemon data
-                Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(imageView)
+                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
                 numberTextView.text = "No.$pokemonNumber"
                 nameTextView.text = pokemonName
                 typeTextView.text = pokemonType
@@ -194,7 +178,7 @@ class MainActivity : AppCompatActivity() {
                 pokemonType = typeNames
 
                 // Display Pokemon data
-                Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(imageView)
+                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
                 numberTextView.text = "No.$pokemonNumber"
                 nameTextView.text = pokemonName
                 typeTextView.text = pokemonType
@@ -235,7 +219,7 @@ class MainActivity : AppCompatActivity() {
                 pokemonType = typeNames
 
                 // Display Pokémon data
-                Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(image)
+                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(image)
                 numberTextView.text = "No.$pokemonNumber"
                 nameTextView.text = pokemonName
                 typeTextView.text = pokemonType
@@ -266,7 +250,7 @@ class MainActivity : AppCompatActivity() {
                 pokemonType = typeNames
 
                 // Update the UI elements
-                Glide.with(this@MainActivity).load(pokemonImageURL).fitCenter().into(imageView)
+                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
                 numberTextView.text = "No.$pokemonNumber"
                 nameTextView.text = pokemonName
                 typeTextView.text = pokemonType
