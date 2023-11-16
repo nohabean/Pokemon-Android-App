@@ -13,10 +13,7 @@ class OpenScreenActivity : AppCompatActivity()  {
 
         val openButton = findViewById<Button>(R.id.openButton)
         openButton.setOnClickListener {
-            // Create an Intent to start the PokedexActivity
-            val intent = Intent(this@OpenScreenActivity, PokedexActivity::class.java)
-
-            // Start the PokedexActivity
+            val intent = Intent(this@OpenScreenActivity, MainMenuActivity::class.java)
             startActivity(intent)
         }
     }
