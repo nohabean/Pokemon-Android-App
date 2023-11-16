@@ -146,10 +146,18 @@
         android:fontFamily="@font/press_start_2p" />
 
     <View
+        android:id="@+id/bottomBackground"
+        android:layout_width="match_parent"
+        android:layout_height="130dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:background="@color/pokedex_red"/>
+
+    <View
         android:id="@+id/bottomBorder"
         android:layout_width="match_parent"
         android:layout_height="4dp"
-        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintBottom_toTopOf="@id/bottomBackground"
         android:background="@color/black" />
 
     <View

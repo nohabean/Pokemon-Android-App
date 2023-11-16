@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PokedexActivity"
+    android:background="@color/pokedex_red">
+
+    <Button
+        android:id="@+id/openButton"
+        style="@style/custom_button"
+        android:layout_width="70dp"
+        android:layout_height="70dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/menuButton"
+        android:layout_marginTop="250dp"
+        android:transitionName="openButtonTransition"
+        android:background="@drawable/open_button" />
+
+    <Button
+        android:id="@+id/menuButton"
+        style="@style/custom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/menu_button" />
+
+    <Button
+        android:id="@+id/teamButton"
+        style="@style/custom_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/green_button"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toEndOf="@id/randomButton"
+        app:layout_constraintTop_toTopOf="@id/battleButton" />
+
+    <Button
+        android:id="@+id/battleButton"
+        style="@style/custom_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="25dp"
+        android:background="@drawable/red_button"
+        android:textSize="20dp"
+        android:textStyle="bold"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toEndOf="@id/menuButton"
+        app:layout_constraintTop_toTopOf="@id/menuButton" />
+
+    <Button
+        android:id="@+id/randomButton"
+        style="@style/custom_button"
+        android:layout_width="25dp"
+        android:layout_height="25dp"
+        android:layout_marginStart="10dp"
+        android:background="@drawable/yellow_button"
+        app:cornerRadius="20dp"
+        app:layout_constraintStart_toEndOf="@id/battleButton"
+        app:layout_constraintTop_toTopOf="@id/battleButton" />
+
+    <View
+        android:id="@+id/topBannerUnder"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="-10dp"
+        android:layout_marginTop="0dp"
+        android:layout_marginEnd="-10dp"
+        android:background="@drawable/top_banner_underline" />
+
+    <View
+        android:id="@+id/topBanner"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginStart="-10dp"
+        android:layout_marginEnd="-10dp"
+        android:background="@drawable/top_banner" />
+
+    <View
+        android:layout_width="200dp"
+        android:layout_height="15dp"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="50dp"
+        android:background="@drawable/front_cover_divet" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
