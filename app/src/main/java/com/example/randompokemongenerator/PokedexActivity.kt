@@ -21,7 +21,7 @@ class PokedexActivity : AppCompatActivity() {
     var pokemonName = ""
     var pokemonType = ""
 
-    var currentPokemonNumber: String = ""
+    var currentPokemonNumber: String = "0"
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
