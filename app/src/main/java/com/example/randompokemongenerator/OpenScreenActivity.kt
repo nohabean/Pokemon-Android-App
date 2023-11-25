@@ -13,6 +13,7 @@ class OpenScreenActivity : AppCompatActivity()  {
 
         val openButton = findViewById<Button>(R.id.openButton)
         openButton.setOnClickListener {
+            overridePendingTransition(0, 0)
             val intent = Intent(this@OpenScreenActivity, MainMenuActivity::class.java)
             startActivity(intent)
         }

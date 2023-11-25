@@ -1,11 +1,17 @@
 package com.example.randompokemongenerator
 
+import androidx.core.content.ContextCompat
 import android.content.Intent
+import android.graphics.drawable.LayerDrawable
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
+import android.os.Handler
+import android.os.Looper
 import android.util.Log
+import android.view.View
 import android.widget.Button
 import android.widget.ImageView
+import android.widget.LinearLayout
 import android.widget.TextView
 import androidx.appcompat.widget.SearchView
 import com.bumptech.glide.Glide
@@ -19,7 +25,8 @@ class PokedexActivity : AppCompatActivity() {
     var pokemonImageURL = ""
     var pokemonNumber = ""
     var pokemonName = ""
-    var pokemonType = ""
+    lateinit var pokemonType: MutableList<String>
+    lateinit var typeContainer: LinearLayout
 
     var currentPokemonNumber: String = "0"
 
@@ -27,10 +34,25 @@ class PokedexActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.pokedex_search)
 
+        typeContainer = findViewById(R.id.typeContainer)
+
         val menuButton = findViewById<Button>(R.id.menuButton)
+        val litUpButton = findViewById<Button>(R.id.litMenuButton)
         menuButton.setOnClickListener {
-            //overridePendingTransition(0, 0)
-            finish()
+            // Toggle visibility to show the "lit up" button
+            litUpButton.visibility = View.VISIBLE
+            menuButton.visibility = View.INVISIBLE
+
+            // Delay for a brief period
+            Handler(Looper.getMainLooper()).postDelayed({
+                // Toggle visibility back to the original button
+                litUpButton.visibility = View.INVISIBLE
+                menuButton.visibility = View.VISIBLE
+
+                overridePendingTransition(0, 0)
+                // Other actions you want to perform on button click
+                finish()
+            }, 200) // Adjust the duration as needed
         }
 
         val randomButton = findViewById<Button>(R.id.randomButton)
@@ -62,7 +84,7 @@ class PokedexActivity : AppCompatActivity() {
                 putExtra("pokemonImageURL", pokemonImageURL)
                 putExtra("pokemonNumber", pokemonNumber)
                 putExtra("pokemonName", pokemonName)
-                putExtra("pokemonType", pokemonType)
+                putStringArrayListExtra("pokemonType", ArrayList(pokemonType))
             }
             //overridePendingTransition(0, 0)
             startActivity(intent)
@@ -112,18 +134,11 @@ class PokedexActivity : AppCompatActivity() {
                 val sprites = json.jsonObject.getJSONObject("sprites")
                 pokemonImageURL = sprites.getString("front_default")
                 pokemonNumber = json.jsonObject.getString("id")
-                pokemonName = json.jsonObject.getString("name")
-                val types = json.jsonObject.getJSONArray("types")
-                val typeNames = extractTypeNames(types)
-                pokemonType = typeNames
+                pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
 
-                // Display Pokemon data
-                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
-                numberTextView.text = "No.$pokemonNumber"
-                nameTextView.text = pokemonName
-                typeTextView.text = pokemonType
-
-                currentPokemonNumber = pokemonNumber
+                // Call the helper method to display Pokemon data
+                displayPokemonData(imageView, numberTextView, nameTextView)
             }
         }]
     }
@@ -144,18 +159,11 @@ class PokedexActivity : AppCompatActivity() {
                 val sprites = json.jsonObject.getJSONObject("sprites")
                 pokemonImageURL = sprites.getString("front_default")
                 pokemonNumber = json.jsonObject.getString("id")
-                pokemonName = json.jsonObject.getString("name")
-                val types = json.jsonObject.getJSONArray("types")
-                val typeNames = extractTypeNames(types)
-                pokemonType = typeNames
+                pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
 
-                // Display Pokemon data
-                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
-                numberTextView.text = "No.$pokemonNumber"
-                nameTextView.text = pokemonName
-                typeTextView.text = pokemonType
-
-                currentPokemonNumber = pokemonNumber
+                // Call the helper method to display Pokemon data
+                displayPokemonData(imageView, numberTextView, nameTextView)
             }
         }]
     }
@@ -176,33 +184,26 @@ class PokedexActivity : AppCompatActivity() {
                 val sprites = json.jsonObject.getJSONObject("sprites")
                 pokemonImageURL = sprites.getString("front_default")
                 pokemonNumber = json.jsonObject.getString("id")
-                pokemonName = json.jsonObject.getString("name")
-                val types = json.jsonObject.getJSONArray("types")
-                val typeNames = extractTypeNames(types)
-                pokemonType = typeNames
+                pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
 
-                // Display Pokemon data
-                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
-                numberTextView.text = "No.$pokemonNumber"
-                nameTextView.text = pokemonName
-                typeTextView.text = pokemonType
-
-                currentPokemonNumber = pokemonNumber
+                // Call the helper method to display Pokemon data
+                displayPokemonData(imageView, numberTextView, nameTextView)
             }
         }]
     }
 
-    private fun extractTypeNames(typesArray: JSONArray): String {
+    private fun extractTypeNames(typesArray: JSONArray): MutableList<String> {
         val typeNames = mutableListOf<String>()
         for (i in 0 until typesArray.length()) {
             val typeObj = typesArray.getJSONObject(i).getJSONObject("type")
             val typeName = typeObj.getString("name")
             typeNames.add(typeName)
         }
-        return typeNames.joinToString(" / ")
+        return typeNames
     }
 
-    private fun getPokemonDataByName(name: String, image: ImageView, numberTextView: TextView, nameTextView: TextView, typeTextView: TextView) {
+    private fun getPokemonDataByName(name: String, imageView: ImageView, numberTextView: TextView, nameTextView: TextView, typeTextView: TextView) {
         // Construct the URL based on the Pokémon name and fetch data from the API
         val lowercaseName = name.lowercase()
         val client = AsyncHttpClient()
@@ -214,21 +215,15 @@ class PokedexActivity : AppCompatActivity() {
             }
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JsonHttpResponseHandler.JSON) {
+                Log.d("Success", json.jsonObject.toString())
                 val sprites = json.jsonObject.getJSONObject("sprites")
                 pokemonImageURL = sprites.getString("front_default")
                 pokemonNumber = json.jsonObject.getString("id")
-                pokemonName = json.jsonObject.getString("name")
-                val types = json.jsonObject.getJSONArray("types")
-                val typeNames = extractTypeNames(types)
-                pokemonType = typeNames
+                pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
 
-                // Display Pokémon data
-                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(image)
-                numberTextView.text = "No.$pokemonNumber"
-                nameTextView.text = pokemonName
-                typeTextView.text = pokemonType
-
-                currentPokemonNumber = pokemonNumber
+                // Call the helper method to display Pokemon data
+                displayPokemonData(imageView, numberTextView, nameTextView)
             }
         }]
     }
@@ -244,23 +239,69 @@ class PokedexActivity : AppCompatActivity() {
 
             override fun onSuccess(statusCode: Int, headers: Headers?, json: JsonHttpResponseHandler.JSON) {
                 Log.d("Success", json.jsonObject.toString())
-
                 val sprites = json.jsonObject.getJSONObject("sprites")
                 pokemonImageURL = sprites.getString("front_default")
                 pokemonNumber = json.jsonObject.getString("id")
-                pokemonName = json.jsonObject.getString("name")
-                val types = json.jsonObject.getJSONArray("types")
-                val typeNames = extractTypeNames(types)
-                pokemonType = typeNames
+                pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
 
-                // Update the UI elements
-                Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
-                numberTextView.text = "No.$pokemonNumber"
-                nameTextView.text = pokemonName
-                typeTextView.text = pokemonType
-
-                currentPokemonNumber = pokemonNumber
+                // Call the helper method to display Pokemon data
+                displayPokemonData(imageView, numberTextView, nameTextView)
             }
         })
+    }
+
+    private fun displayPokemonData(imageView: ImageView, numberTextView: TextView, nameTextView: TextView) {
+        // Display Pokemon data
+        Glide.with(this@PokedexActivity).load(pokemonImageURL).fitCenter().into(imageView)
+        numberTextView.text = "No.$pokemonNumber"
+        nameTextView.text = pokemonName
+
+        // Map types to drawable resource IDs
+        val typeDrawables = mapTypesToDrawables(pokemonType)
+
+        // Clear existing views in typeContainer
+        typeContainer.removeAllViews()
+
+        // Create ImageViews for each type and add them to typeContainer
+        typeDrawables.forEach { drawableId ->
+            val typeImageView = ImageView(this@PokedexActivity)
+            typeImageView.layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+            typeImageView.setImageResource(drawableId)
+            typeImageView.scaleType = ImageView.ScaleType.FIT_CENTER
+            typeContainer.addView(typeImageView)
+        }
+
+        currentPokemonNumber = pokemonNumber
+    }
+
+    private fun mapTypesToDrawables(types: List<String>): List<Int> {
+        // Define a mapping of type strings to drawable resource IDs
+        val typeDrawableMap = mapOf(
+            "bug" to R.drawable.bug_tag,
+            "dark" to R.drawable.dark_tag,
+            "dragon" to R.drawable.dragon_tag,
+            "electric" to R.drawable.electric_tag,
+            "fairy" to R.drawable.fairy_tag,
+            "fighting" to R.drawable.fighting_tag,
+            "fire" to R.drawable.fire_tag,
+            "flying" to R.drawable.flying_tag,
+            "ghost" to R.drawable.ghost_tag,
+            "grass" to R.drawable.grass_tag,
+            "ground" to R.drawable.ground_tag,
+            "ice" to R.drawable.ice_tag,
+            "normal" to R.drawable.normal_tag,
+            "poison" to R.drawable.poison_tag,
+            "psychic" to R.drawable.psychic_tag,
+            "rock" to R.drawable.rock_tag,
+            "steel" to R.drawable.steel_tag,
+            "water" to R.drawable.water_tag
+        )
+
+        // Map each type to its corresponding drawable resource ID
+        return types.map { typeDrawableMap.getValue(it) }
     }
 }

@@ -19,12 +19,13 @@
     <Button
         android:id="@+id/loadPokedex"
         style="@style/custom_button"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toBottomOf="@id/menuButton"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="70dp"
-        android:layout_marginStart="50dp" />
+        android:layout_marginTop="100dp"
+        android:layout_marginStart="65dp"
+        android:background="@drawable/pokedex_menu_button"/>
 
     <TextView
         android:id="@+id/pokedexText"
@@ -45,11 +46,12 @@
     <Button
         android:id="@+id/loadFavorites"
         style="@style/custom_button"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="@id/loadPokedex"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="50dp" />
+        android:layout_marginEnd="65dp"
+        android:background="@drawable/favorites_menu_button" />
 
     <TextView
         android:id="@+id/favoritesText"
@@ -69,12 +71,13 @@
     <Button
         android:id="@+id/loadBattle"
         style="@style/custom_button"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toBottomOf="@id/pokedexText"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="40dp"
-        android:layout_marginStart="50dp" />
+        android:layout_marginTop="60dp"
+        android:layout_marginStart="65dp"
+        android:background="@drawable/battle_menu_button" />
 
     <TextView
         android:id="@+id/battleText"
@@ -95,11 +98,12 @@
     <Button
         android:id="@+id/loadTeam"
         style="@style/custom_button"
-        android:layout_width="125dp"
-        android:layout_height="125dp"
+        android:layout_width="100dp"
+        android:layout_height="100dp"
         app:layout_constraintTop_toTopOf="@id/loadBattle"
         app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="50dp" />
+        android:layout_marginEnd="65dp"
+        android:background="@drawable/team_menu_button" />
 
     <TextView
         android:id="@+id/teamText"
@@ -116,6 +120,17 @@
         android:gravity="center"
         android:textSize="15dp"
         android:text="Team" />
+
+    <Button
+        android:id="@+id/litMenuButton"
+        style="@style/custom_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        android:layout_marginTop="20dp"
+        android:layout_marginStart="20dp"
+        android:background="@drawable/lit_menu_button" />
 
     <Button
         android:id="@+id/menuButton"
