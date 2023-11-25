@@ -5,5 +5,6 @@
     <color name="backgroundImageView">@color/black</color>
     <color name="pokedex_red">#DF0024</color>
     <color name="menu_blue">#1CAAFF</color>
+    <color name="menu_light_up">#3EE9FF</color>
     <color name="search_green">#4EAF5E</color>
 </resources>

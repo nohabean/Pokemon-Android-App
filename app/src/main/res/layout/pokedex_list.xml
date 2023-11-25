@@ -1,40 +1,21 @@
 <?xml version="1.0" encoding="utf-8"?>
-<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<androidx.constraintlayout.widget.ConstraintLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".PokedexActivity" >
+    tools:context=".PokedexActivity">
 
-    <!--
-    <ImageView
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:scaleType="centerCrop"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent"
-        app:srcCompat="@drawable/pokedex_background" />
-        -->
-
-    <ImageView
-        android:id="@+id/pokemonImage"
-        android:layout_width="375dp"
-        android:layout_height="275dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokemonName"
-        android:layout_marginTop="30dp" />
-
-    <Button
-        android:id="@+id/litMenuButton"
-        style="@style/custom_button"
-        android:layout_width="wrap_content"
+    <androidx.recyclerview.widget.RecyclerView
+        android:id="@+id/pokedex_recycler_view"
+        android:layout_width="match_parent"
         android:layout_height="wrap_content"
         app:layout_constraintTop_toTopOf="parent"
+        android:layout_marginTop="160dp"
         app:layout_constraintStart_toStartOf="parent"
-        android:layout_marginTop="20dp"
-        android:layout_marginStart="20dp"
-        android:background="@drawable/lit_menu_button" />
+        app:layout_constraintBottom_toBottomOf="parent"
+        android:layout_marginBottom="160dp"/>
 
     <Button
         android:id="@+id/menuButton"
@@ -83,89 +64,6 @@
         app:cornerRadius="20dp"
         app:layout_constraintStart_toEndOf="@id/battleButton"
         app:layout_constraintTop_toTopOf="@id/battleButton" />
-
-    <Button
-        android:id="@+id/previousButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/menuButton"
-        app:layout_constraintBottom_toTopOf="@id/bottomBorder"
-        android:layout_marginTop="30dp"
-        app:cornerRadius="0dp"
-        android:background="@android:color/transparent" />
-
-    <Button
-        android:id="@+id/statsButton"
-        android:layout_width="220dp"
-        android:layout_height="0dp"
-        app:layout_constraintStart_toEndOf="@id/previousButton"
-        app:layout_constraintEnd_toStartOf="@id/nextButton"
-        app:layout_constraintTop_toTopOf="@id/previousButton"
-        app:layout_constraintBottom_toBottomOf="@id/previousButton"
-        app:cornerRadius="0dp"
-        android:background="@android:color/transparent" />
-
-    <Button
-        android:id="@+id/nextButton"
-        android:layout_width="wrap_content"
-        android:layout_height="0dp"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toTopOf="@id/previousButton"
-        app:layout_constraintBottom_toBottomOf="@id/previousButton"
-        app:cornerRadius="0dp"
-        android:background="@android:color/transparent" />
-
-    <TextView
-        android:id="@+id/pokemonNumber"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintBottom_toBottomOf="@id/menuButton"
-        app:layout_constraintEnd_toEndOf="parent"
-        android:layout_marginEnd="7dp"
-        android:layout_marginBottom="-25dp"
-        android:fontFamily="@font/press_start_2p"
-        android:textSize="25dp"
-        android:textColor="@color/black"
-        android:textStyle="bold" />
-
-    <TextView
-        android:id="@+id/pokemonName"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokemonNumber"
-        android:layout_marginTop="50dp"
-        android:textStyle="bold"
-        android:textAllCaps="true"
-        android:textSize="20dp"
-        android:textColor="@color/black"
-        android:fontFamily="@font/press_start_2p" />
-
-    <TextView
-        android:id="@+id/pokemonType"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/pokemonImage"
-        android:layout_marginTop="30dp"
-        android:textSize="15dp"
-        android:textAllCaps="true"
-        android:textColor="@color/black"
-        android:fontFamily="@font/press_start_2p" />
-
-    <LinearLayout
-        android:id="@+id/typeContainer"
-        android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:orientation="horizontal"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintBottom_toTopOf="@id/bottomBorder"
-        app:layout_constraintTop_toBottomOf="@id/pokemonImage"
-        android:gravity="center_vertical" />
 
     <View
         android:id="@+id/bottomBackground"
