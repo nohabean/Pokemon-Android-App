@@ -15,14 +15,25 @@ import com.bumptech.glide.Glide
 import com.codepath.asynchttpclient.AsyncHttpClient
 import com.codepath.asynchttpclient.callback.JsonHttpResponseHandler
 import okhttp3.Headers
+import org.json.JSONArray
 
 class StatsActivity : AppCompatActivity() {
 
     private lateinit var typeContainer: LinearLayout  // Declare typeContainer
+    private var currentPokemonNumber: String = "0"
+
+    private lateinit var image: ImageView
+    private lateinit var numberTextView: TextView
+    private lateinit var nameTextView: TextView
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.display_stats)
+
+        // Initialize your properties
+        image = findViewById(R.id.pokemonImage)
+        numberTextView = findViewById(R.id.pokemonNumber)
+        nameTextView = findViewById(R.id.pokemonName)
 
         // Retrieve Pokemon data from Intent
         val pokemonImageURL = intent.getStringExtra("pokemonImageURL")
@@ -32,6 +43,7 @@ class StatsActivity : AppCompatActivity() {
 
         if (pokemonNumber != null) {
             Log.d("loaded number", pokemonNumber)
+            currentPokemonNumber = pokemonNumber
         }
 
         // Populate stats XML with Pokemon data
@@ -98,6 +110,113 @@ class StatsActivity : AppCompatActivity() {
                 finish()
             }, 200) // Adjust the duration as needed
         }
+
+        val nextButton = findViewById<Button>(R.id.nextButton)
+        nextButton.setOnClickListener {
+            getNextPokemon()
+        }
+
+        val previousButton = findViewById<Button>(R.id.previousButton)
+        previousButton.setOnClickListener {
+            getPreviousPokemon()
+        }
+    }
+
+    private fun getNextPokemon() {
+        val nextPokemonNumber = currentPokemonNumber.toInt() + 1
+        val nextPokemonJSON = "https://pokeapi.co/api/v2/pokemon/$nextPokemonNumber"
+        fetchPokemonData(nextPokemonJSON)
+    }
+
+    private fun getPreviousPokemon() {
+        val previousPokemonNumber = currentPokemonNumber.toInt() - 1
+        val previousPokemonJSON = "https://pokeapi.co/api/v2/pokemon/$previousPokemonNumber"
+        fetchPokemonData(previousPokemonJSON)
+    }
+
+    private fun fetchPokemonData(pokemonJSON: String) {
+        val client = AsyncHttpClient()
+        client[pokemonJSON, object : JsonHttpResponseHandler() {
+            override fun onFailure(statusCode: Int, headers: Headers?, errorResponse: String, throwable: Throwable?) {
+                Log.d("Image Error", errorResponse)
+            }
+
+            override fun onSuccess(statusCode: Int, headers: Headers?, json: JsonHttpResponseHandler.JSON) {
+                Log.d("success", json.jsonObject.toString())
+                val sprites = json.jsonObject.getJSONObject("sprites")
+                val pokemonImageURL = sprites.getString("front_default")
+                val pokemonNumber = json.jsonObject.getString("id")
+                val pokemonName = json.jsonObject.getString("name").replace("-", " ")
+                val pokemonType = extractTypeNames(json.jsonObject.getJSONArray("types"))
+
+                // Assuming you have these views in your layout
+                val imageView = findViewById<ImageView>(R.id.pokemonImage)
+                val numberTextView = findViewById<TextView>(R.id.pokemonNumber)
+                val nameTextView = findViewById<TextView>(R.id.pokemonName)
+
+                // Call displayPokemonData with the correct parameters
+                displayPokemonData(imageView, numberTextView, nameTextView, pokemonImageURL, pokemonNumber, pokemonName, pokemonType)
+            }
+        }]
+    }
+
+    private fun displayPokemonData(
+        image: ImageView,
+        numberTextView: TextView,
+        nameTextView: TextView,
+        pokemonImageURL: String,
+        pokemonNumber: String,
+        pokemonName: String,
+        pokemonType: List<String>
+    ) {
+        // Display Pokemon data
+        Glide.with(this@StatsActivity).load(pokemonImageURL).fitCenter().into(image)
+        numberTextView.text = "No.$pokemonNumber"
+        nameTextView.text = pokemonName
+
+        // Map types to drawable resource IDs
+        val typeDrawables = mapTypesToDrawables(pokemonType)
+
+        // Clear existing views in typeContainer
+        typeContainer.removeAllViews()
+
+        // Create ImageViews for each type and add them to typeContainer
+        typeDrawables.forEachIndexed { index, drawableId ->
+            val typeImageView = ImageView(this@StatsActivity)
+            val layoutParams = LinearLayout.LayoutParams(
+                LinearLayout.LayoutParams.WRAP_CONTENT,
+                LinearLayout.LayoutParams.WRAP_CONTENT
+            )
+
+            // Set layout gravity for typeImageView
+            typeImageView.layoutParams = layoutParams
+            typeImageView.setImageResource(drawableId)
+            typeImageView.adjustViewBounds = true
+
+            // Check if there's only one type
+            if (typeDrawables.size == 1) {
+                typeImageView.scaleType = ImageView.ScaleType.FIT_START
+            } else {
+                typeImageView.scaleType = ImageView.ScaleType.FIT_END
+            }
+
+            typeContainer.addView(typeImageView)
+        }
+
+        // Update the current Pokemon number
+        currentPokemonNumber = pokemonNumber
+    }
+
+    private fun extractTypeNames(typesArray: JSONArray): List<String> {
+        val typeNames = mutableListOf<String>()
+
+        for (i in 0 until typesArray.length()) {
+            val typeObject = typesArray.getJSONObject(i)
+            val typeName = typeObject.getJSONObject("type").getString("name")
+            typeNames.add(typeName)
+        }
+
+        return typeNames
     }
 
     private fun getPokemonDims(id: String) {
